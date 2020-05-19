@@ -1,60 +1,40 @@
 import RPi.GPIO as GPIO
 
 class Strip():
-    def __init__(self, channels, frequency=100):
+    def __init__(self, channels):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(channels, GPIO.OUT)
 
-        self.frequency = frequency
-        self._red = GPIO.PWM(channels[0], self.frequency)
-        self._green = GPIO.PWM(channels[1], self.frequency)
-        self._blue = GPIO.PWM(channels[2], self.frequency)
-        #self._white = GPIO.PWM(channels[3], self.frequency)
+        self._red = GPIO.PWM(channels[0], 100)
+        self._green = GPIO.PWM(channels[1], 100)
+        self._blue = GPIO.PWM(channels[2], 100)
+        self._white = GPIO.PWM(channels[3], 100)
 
-    @property
-    def red(self):
-        return self._red
-    @red.setter
-    def red(self, value):
-        self._red.ChangeDutyCycle(value)
-
-    @property
-    def green(self):
-        return self._green
-    @green.setter
-    def green(self, value):
-        self._green.ChangeDutyCycle(value)
-
-    @property
-    def blue(self):
-        return self._blue
-    @blue.setter
-    def blue(self, value):
-        self._blue.ChangeDutyCycle(value)
-    """
-    @property
-    def white(self):
-        return self._white
-    @white.setter
-    def white(self, value):
-        self._white.ChangeDutyCycle(value)
-    """
-    def on(self):
-        default_brightness = 100
-        self.red.start(default_brightness)
-        self.green.start(default_brightness)
-        self.blue.start(default_brightness)
-        #self.white.start(default_brightness)
+    def on(self, brightness=50):
+        self._red.start(brightness)
+        self._green.start(brightness)
+        self._blue.start(brightness)
+        self._white.start(brightness)
 
     def off(self):
-        self.red.stop()
-        self.green.stop()
-        self.blue.stop()
-        #self.white.stop()
+        self._red.stop()
+        self._green.stop()
+        self._blue.stop()
+        self._white.stop()
 
-    def color(self, r=0, g=0, b=0, w=0):
-        self.red = r
-        self.green = g
-        self.blue = b
-        #self.white = w
+    def color(self, r, g, b, w):
+        self._red.ChangeDutyCycle(r)
+        self._green.ChangeDutyCycle(g)
+        self._blue.ChangeDutyCycle(b)
+        self._white.ChangeDutyCycle(w)
+
+    def frequency(self, r, g, b, w):
+        self._red.ChangeFrequency(r)
+        self._green.ChangeFrequency(g)
+        self._blue.ChangeFrequency(b)
+        self._white.ChangeFrequency(w)
+
+    def poweroff(self):
+        self.off()
+        GPIO.cleanup()
