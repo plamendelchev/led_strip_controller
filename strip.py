@@ -11,8 +11,7 @@ class Strip():
         self.leds = {'red': None, 'green': None, 'blue': None, 'white': None}
 
         for channel, color in zip(channels, self.leds): 
-            led = GPIO.PWM(channel, 100)
-            self.leds[color] = led
+            self.leds[color] = GPIO.PWM(channel, 100)
 
     # Turn on all LEDs
     def on(self, brightness=50):
