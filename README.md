@@ -2,6 +2,8 @@
 
 _Short description here_
 
+## TODO
+
 #### How to change the brightness of the strip without affecting the color? Something like a fomula: 
 
 - `color_value` - from 0 to 100. The value of each RGB color
