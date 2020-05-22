@@ -1,15 +1,19 @@
 import RPi.GPIO as GPIO
 
 class Strip():
-    def __init__(self, channels):
+    def __init__(self):
+        # GPIO Channels
+        channels = (12, 13, 18, 19)
+
         # GPIO Initial Settings
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(channels, GPIO.OUT)
 
-        # Initialize a dictionary with all LED colors (keys) and their GPIO.PWM objects (values)
+        # Dictionary with all LED colors (keys) and their GPIO.PWM objects (values)
         self.leds = {'red': None, 'green': None, 'blue': None, 'white': None}
 
+        # Populate dict with GPIO.PWN objects
         for channel, color in zip(channels, self.leds): 
             self.leds[color] = GPIO.PWM(channel, 100)
 
