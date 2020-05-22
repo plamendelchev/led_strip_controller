@@ -54,9 +54,9 @@ strip_color = color_value * 1
 
 **Arguments**
 
-`"status":string`
-`"color":string` - optional. Default `FFFFFF`
-`"intensity":int` - optional. Default `50`
+- `"status":string`
+- `"color":string` - optional. Default `FFFFFF`
+- `"intensity":int` - optional. Default `50`
 
 **Response**
 
@@ -78,7 +78,7 @@ strip_color = color_value * 1
 
 **Arguments**
 
-`"status":string`
+- `"status":string`
 
 **Response**
 
@@ -100,10 +100,10 @@ strip_color = color_value * 1
 
 **Arguments**
 
-`"color":string`
-`"intensity":int`
+- `"color":string`
+- `"intensity":int`
 
-- At least one of the arguments must be specified
+At least one of the arguments must be specified
 
 **Response**
 
