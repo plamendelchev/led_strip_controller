@@ -3,6 +3,9 @@ from colors import to_rgb, is_white
 
 class Strip():
     channels = (12, 13, 18, 19)
+    _color = '#000000'
+    _intensity = 0.5
+    _status = 'off'
 
     def __init__(self):
         # GPIO Initial Settings
@@ -20,27 +23,33 @@ class Strip():
     @property
     def status(self):
         return self._status
-
     @status.setter
     def status(self, value):
         if value == 'on': 
-            if self.status == 'off' and not self.color == '#00000':
+            if not self.color == '#00000' and self.status == 'off':
                 self.on(self.color)
             else:
                 self.color = self.color
-        elif value == 'off':
+        else:
             self.off()
         self._status = value
 
     @property
+    def intensity(self):
+        return self._intensity
+    @intensity.setter
+    def intensity(self, value):
+        self._intensity = value
+        self.color = self.color
+
+    @property
     def color(self):
         return self._color
-
     @color.setter
     def color(self, value):
-        r, g, b = to_rgb(value)
+        r, g, b = to_rgb(value, self.intensity)
         if is_white(value):
-            self.leds['white'].ChangeDutyCycle(100)
+            self.leds['white'].ChangeDutyCycle(100 * self.intensity)
             self.leds['red'].ChangeDutyCycle(0)
             self.leds['green'].ChangeDutyCycle(0)
             self.leds['blue'].ChangeDutyCycle(0)
@@ -51,11 +60,10 @@ class Strip():
             self.leds['blue'].ChangeDutyCycle(b)
         self._color = value
 
-    # Turn on all LEDs
     def on(self, value):
-        r, g, b = to_rgb(value)
+        r, g, b = to_rgb(value, self.intensity)
         if is_white(value):
-            self.leds['white'].start(100)
+            self.leds['white'].start(100 * self.intensity)
             self.leds['red'].start(0)
             self.leds['green'].start(0)
             self.leds['blue'].start(0)
@@ -65,12 +73,9 @@ class Strip():
             self.leds['green'].start(g)
             self.leds['blue'].start(b)
 
-    # Turn off all LEDs
     def off(self):
-        self.leds['white'].stop()
-        self.leds['red'].stop()
-        self.leds['green'].stop()
-        self.leds['blue'].stop()
+        for led in self.leds.values():
+            led.stop()
 
     # Set a specific PWM frequency to the whole strip == change the frequency of each individual LED
     def frequency(self, r, g, b, w):
