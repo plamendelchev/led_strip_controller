@@ -1,29 +1,12 @@
 from flask import Flask, request
 from strip import Strip
+from validator import valid_data, valid_status, valid_color, valid_intensity
 
 app = Flask(__name__)
+
 strip = Strip()
-
-def valid_status(data):
-    if data == 'on' or data == 'off':
-        return True
-    else:
-        return False
-
-# Add validation for data.length == 6
-def valid_color(data):
-    try:
-        int(data, 16)
-        return True
-    except ValueError:
-        return False
-
-def valid_data(data):
-    valid_headers = ('status', 'color', 'intensity')
-    if [h for h in data if h in valid_headers]:
-        return True
-    else:
-        return False
+strip.status = 'off'
+strip.color = '#000000'
 
 @app.route("/")
 def default():
@@ -32,7 +15,7 @@ def default():
 @app.route("/strip", methods=['GET'])
 def get():
     #return {"status": strip.status, "color": strip.color, "intensity": strip.intensity }
-    return {"status": strip.status }
+    return {"status": strip.status, "color": strip.color}
 
 @app.route("/strip", methods=['POST'])
 def set():
@@ -56,5 +39,5 @@ def set():
         else:
             return {'error': 'Invalid intensity'}, 400
 
-    return {"status": strip.status, "color": strip.color}
+    return {'status': strip.status, 'color': strip.color}
     #return {"status": strip.status, "color": strip.color, "intensity": strip.intensity }
