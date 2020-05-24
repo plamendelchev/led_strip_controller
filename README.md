@@ -107,7 +107,7 @@ At least one of the arguments must be specified
 
 **Response**
 
-- '200 OK'
+- `200 OK`
 
 ```json
 {
