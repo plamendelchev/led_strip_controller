@@ -1,6 +1,6 @@
 from flask import Flask, request
-from strip import Strip
-from validator import valid_data, valid_status, valid_color, valid_intensity
+from models import Strip
+from helpers import valid_data, valid_status, valid_color, valid_intensity
 
 app = Flask(__name__)
 
