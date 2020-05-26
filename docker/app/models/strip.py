@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from helpers import to_rgb, is_white
+from app.helpers import to_rgb, is_white
 
 class Strip():
     channels = (12, 13, 18, 19)
