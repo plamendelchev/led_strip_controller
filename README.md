@@ -1,6 +1,31 @@
 # RGB+W LED Strip Controller
 
-_Short description here_
+A simple dockerized API based on Flask and uWSGI that can control a SMD5050 RGBW LED strip. Structure:
+
+```
+.
+|-- bin
+|   |-- chaos.sh
+|   `-- run.sh
+|-- docker
+|   |-- app
+|   |   |-- helpers
+|   |   |   |-- colors.py
+|   |   |   |-- __init__.py
+|   |   |   `-- validator.py
+|   |   |-- __init__.py
+|   |   `-- models
+|   |       |-- __init__.py
+|   |       `-- strip.py
+|   |-- app.ini
+|   `-- wsgi.py
+|-- Dockerfile
+|-- LICENSE
+|-- README.md
+`-- requirements.txt
+
+5 directories, 14 files
+```
 
 ## Usage
 
@@ -18,18 +43,11 @@ _Short description here_
 {
 	"status": "on", 
 	"color": "#FF0000",
-	"intensity": "100%"
-}
-```
-```json
-{
-	"status": "off",
-	"color": null,
-	"intensity": null
+	"intensity": 1.0
 }
 ```
 
-### Turn on the LED Strip
+### Toggle the LED Strip
 
 **Definition**
 
@@ -37,9 +55,9 @@ _Short description here_
 
 **Arguments**
 
-- `"status":string`
-- `"color":string` - optional. Default `FFFFFF`
-- `"intensity":int` - optional. Default `50`
+- `"status":string` can be either "on" or "off"
+- `"color":string` optional, HEX value. Default `#FFFFFF`
+- `"intensity":float` optional, range [0.1 - 1.0]. Default `0.5`
 
 **Response**
 
@@ -49,29 +67,7 @@ _Short description here_
 {
 	"status": "on",
 	"color": "#FF0000",
-	"intensity": "100%"
-}
-```
-
-### Turn off the LED Strip
-
-**Definition**
-
-`POST /strip`
-
-**Arguments**
-
-- `"status":string`
-
-**Response**
-
-- `200 OK`
-
-```json
-{
-	"status": "off",
-	"color": null,
-	"intensity": null
+	"intensity": 0.5
 }
 ```
 
@@ -84,7 +80,7 @@ _Short description here_
 **Arguments**
 
 - `"color":string`
-- `"intensity":int`
+- `"intensity":float`
 
 At least one of the arguments must be specified
 
@@ -96,6 +92,6 @@ At least one of the arguments must be specified
 {
 	"status": "on",
 	"color": "#FF00000",
-	"intensity": "100%"
+	"intensity": 0.5
 }
 ```
